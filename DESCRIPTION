@@ -1,0 +1,19 @@
+Package: quanteda.plagiarism
+Type: Package
+Title: A package to detet text reuse
+Version: 0.1.0
+Author: Kohei Watanabe
+Maintainer: Kohei Watanabe <watanabe.kohei@gmail.com>
+Description: A tool to detect text segments that are very similar to others. Useful in studying flows of information.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.2.2),
+    methods
+Imports:
+    quanteda (>= 1.5.1),
+    Matrix
+Suggests:
+    testthat
+RoxygenNote: 6.1.1
