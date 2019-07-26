@@ -1,0 +1,7 @@
+# quanteda.plagiarism
+An example of quanteda extension package for ECPR summer school.
+
+```r
+install.packages("devtools")
+devtools::install_github("koheiw/newsmap")
+```
