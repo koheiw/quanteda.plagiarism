@@ -1,7 +1,53 @@
-# quanteda.plagiarism
-An example of quanteda extension package for ECPR summer school.
+---
+output: github_document
+---
 
-```r
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "##",
+  fig.path = "man/images/"
+)
+```
+
+# quanteda.plagiarism
+
+A tool to detect text segments that are very similar to other segments. Useful in studying flows of information or detecting plagiarism. This is an example of **quanteda** extension package for ECPR summer school. 
+
+```{r, eval=FALSE}
 install.packages("devtools")
 devtools::install_github("koheiw/quanteda.plagiarism")
+```
+
+
+```{r message=FALSE}
+require(quanteda)
+require(quanteda.plagiarism)
+
+quanteda_options(threads = 8)
+corp <- data_corpus_inaugural
+toks <- tokens(corp, remove_punct = TRUE) %>%
+    tokens_remove(stopwords("en")) %>%
+    tokens_select("^[\\p{L}]+$", valuetype = "regex")
+
+```
+
+In this example, `textstat_plagiarism()` detects 5-word segments of texts in the modern US presidents' speeches, `tail(toks, 20)`, that are similarit (cosine >= 0.7) to ealier presidents' speeches, `head(toks, 20)`. It seems that Jefferson's 1801 speech inspired many of the modern presidents (or their speech writers).
+
+```{r}
+tstat_plag <- textstat_plagiarism(
+    tail(toks, 20),
+    head(toks, 20),
+    size = 5,
+    min_simil = 0.7
+)
+mat <- as.matrix(tstat_plag, upper = FALSE)
+print(mat)
+colSums(mat)
+```
+
+These are segments that are similar to those in ealier speeches.
+
+```{r}
+as.list(tstat_plag, upper = FALSE) %>% tail(10)
 ```
